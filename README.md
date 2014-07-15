@@ -17,4 +17,37 @@ the activator-laucher will do the rest:
 
     $ ./activator 'run-main com.example.Main'
 
+# Docker
+## Run the image
+When you have Docker installed, you can launch a [containerized version](https://registry.hub.docker.com/u/dnvriend/akka-camel-ping-pong/) using the following command:
+
+    $ sudo docker run -d --name akka-camel-ping-pong dnvriend/akka-camel-ping-pong
+        
+## Viewing log output
+
+	$ sudo docker logs -f akka-camel-ping-pong
+
+## Stopping the container
+
+	$ sudo docker stop akka-camel-ping-pong
+
+## Creating the image
+Inside Vagrant navigate to
+ 
+    $ cd /akka-camel-ping-pong
+
+Then type
+
+	$ sudo docker build --rm -t dnvriend/akka-camel-ping-pong .
+
+## Pusing the image to [docker hub](https://hub.docker.com/)
+This is just an example:
+	
+	$ sudo docker push dnvriend/akka-camel-ping-pong
+
+# Creating one jar
+For distribution of our Spray applications, we can use the one-jar plugin, just type:
+
+    $ ./activator 'one-jar'
+        
 Have fun!
