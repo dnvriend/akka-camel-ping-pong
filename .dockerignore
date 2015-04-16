@@ -1,0 +1,8 @@
+app
+.idea
+conf
+project
+test
+build.sbt
+README.md
+test.sh

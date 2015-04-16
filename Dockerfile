@@ -1,5 +1,7 @@
-FROM murad/java8
-MAINTAINER Dennis Vriend <dnvriend@gmail.com>
+FROM java:8
 
-ADD /target/scala-2.11/akka-camel-ping-pong_2.11-0.0.1-one-jar.jar /appl/
-CMD java -jar /appl/akka-camel-ping-pong_2.11-0.0.1-one-jar.jar
+ADD target/universal/ping-pong.tgz /
+RUN chown 1000:1000 /ping-pong
+
+WORKDIR /ping-pong/bin
+CMD [ "./akka-camel-ping-pong" ]

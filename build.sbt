@@ -1,38 +1,29 @@
-organization := "com.github.dnvriend"
-
 name := "akka-camel-ping-pong"
 
-version := "0.0.1"
+version := "1.0.0-SNAPSHOT"
 
-isSnapshot := true
+lazy val pingPongProject = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.6"
 
-libraryDependencies ++= {
-  val scalaV = "2.11.1"
-  val akkaV = "2.3.4"
+libraryDependencies ++= Seq(
+  jdbc,
+  anorm,
+  cache,
+  ws
+)
+
+libraryDependencies ++=  {
+  val akkaV = "2.3.9"
   val activemqV = "5.10.0"
   Seq(
-    "org.scala-lang" % "scala-library" % scalaV,
-    "com.typesafe.akka" %% "akka-actor" % akkaV,
-    "com.typesafe.akka" %% "akka-slf4j" % akkaV,
-    "com.typesafe.akka" %% "akka-camel" % akkaV,
-    "com.typesafe" % "config" % "1.2.0",
-    "org.apache.activemq" % "activemq-all" % activemqV,
-    "org.apache.activemq" % "activemq-camel" % activemqV
+    "com.typesafe.akka" %% "akka-actor"       % akkaV,
+    "com.typesafe.akka" %% "akka-camel"       % akkaV,
+    "io.spray"          %% "spray-json"       % "1.3.1",
+    "org.apache.activemq" % "activemq-camel"  % activemqV,
+    "com.typesafe.akka"   %% "akka-testkit"   % akkaV      % Test,
+    "org.scalatest"       %% "scalatest"      % "2.2.4"    % Test
   )
 }
 
-autoCompilerPlugins := true
-
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
-
-publishMavenStyle := true
-
-publishArtifact in Test := false
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
-
-com.github.retronym.SbtOneJar.oneJarSettings
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
+name in Universal := "ping-pong"
