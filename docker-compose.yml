@@ -2,6 +2,10 @@ activemq:
   image: rmohr/activemq:5.10.0
   ports:
     - "61616:61616"
+    - "8161:8161"
+
+# ActiveMQ:61616 => "admin":"adminactivemq"
+# ActiveMQWeb:8161 => "admin":"admin"
 
 pong:
   build: .

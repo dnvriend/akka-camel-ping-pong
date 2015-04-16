@@ -22,7 +22,8 @@ class ActiveMqComponentTest extends ServiceTest {
         log.info("Received: {}", msg)
       case u => fail("Unexpected: " + u)
     }
-    cleanupActors(Seq(producerRef, consumerRef), sender)
+    cleanupActors(producerRef, consumerRef)
+    queueStats().head.size shouldBe 0
   }
 
   it should "send a message using OneWay only, which does not expect a response" in {
@@ -34,8 +35,8 @@ class ActiveMqComponentTest extends ServiceTest {
     val sender = TestProbe()
     sender.send(producerRef, "Dennis")
     sender.expectNoMsg()
-
-    cleanupActors(Seq(producerRef, consumerRef), sender)
+    cleanupActors(producerRef, consumerRef)
+    queueStats().head.size shouldBe 0
   }
 
   override protected def beforeAll(): Unit = {

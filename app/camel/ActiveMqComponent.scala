@@ -14,5 +14,7 @@ class ActiveMqComponent(val activeMqPoolName: String)(implicit val system: Actor
   override val log: LoggingAdapter = Logging(system, this.getClass)
 
   setConnectionFactory(new PooledConnectionFactory(activeMqConnectionFactory))
+
+  setTransacted(true)
 }
 
