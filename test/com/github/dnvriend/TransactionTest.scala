@@ -22,9 +22,13 @@ class TransactionTest extends ServiceTest {
     for(i <- 1 to 5) {
       sender.send(producerRef, "nok")
     }
+
     eventually {
-      queueStats().head.size shouldBe 5
+      val stats = queueStats().head
+      stats.enqueueCount shouldBe stats.dequeueCount
+      stats.size shouldBe 0
     }
+
     cleanupActors(producerRef, consumerRef)
   }
 

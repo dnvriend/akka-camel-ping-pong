@@ -10,6 +10,8 @@ class JmsConsumerWithAck extends Consumer with ActorLogging {
   // the Ack when everything is fine, else Failure
   override def autoAck: Boolean = false
 
+  val redeliveryTimes = 5
+
   override def endpointUri: String = QueueNames.testQueue
 
   override def receive: Receive = {
@@ -19,6 +21,16 @@ class JmsConsumerWithAck extends Consumer with ActorLogging {
 
     case msg @ CamelMessage("nok", headers) =>
       log.info("Received: {}", msg)
-      sender() ! Failure(new RuntimeException("nok"))
+      headers.get("JMSXDeliveryCount")
+        // get the number of times the message has been delivered,
+        // note that the header is not available the first time
+        .map(_.asInstanceOf[Int])
+        .filter(_ == redeliveryTimes)
+        .map { count =>
+        log.info("Redelivered {} times, time for an Ack", redeliveryTimes)
+        sender() ! akka.camel.Ack
+      }.getOrElse {
+        sender() ! akka.actor.Status.Failure(new RuntimeException("nok"))
+      }
   }
 }

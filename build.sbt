@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++=  {
-  val akkaV = "2.3.9"
+  val akkaV = "2.3.10"
   val activemqV = "5.10.0"
   Seq(
     "com.typesafe.akka" %% "akka-actor"       % akkaV,
